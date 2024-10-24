@@ -1,0 +1,16 @@
+Can only store 24 hour data
+
+min url img-index = 0000
+max url img-index = 2350
+
+NightMicrophysicsRGB:
+https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_ngt_<img-index>.jpg
+
+ShortWaveInfrared:
+https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_b07_<img-index>.jpg
+
+Sandwich:
+https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_snd_<img-index>.jpg
+
+HeavyRainfallPotentialAreas:
+https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_hrp_<img-index>.jpg
