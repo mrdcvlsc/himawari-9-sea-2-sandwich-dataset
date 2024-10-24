@@ -1,3 +1,6 @@
 last_utc_time.txt
 satellite_images
 run_logs
+*.7z
+*.zip
+*.gz
