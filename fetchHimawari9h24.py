@@ -79,8 +79,8 @@ def download_new_images():
     last_utc_time = get_last_utc_time()
 
     if last_utc_time:
-        # Download images from last recorded time + 10 minutes to current time
-        start_time = last_utc_time + timedelta(minutes=10)
+        # Download images from last recorded time to current time
+        start_time = last_utc_time
     else:
         # First run: download images from 23 hours ago to current time
         start_time = current_utc_time - timedelta(hours=23)
