@@ -2,8 +2,23 @@ import os
 from datetime import datetime, timedelta
 
 # Folder containing images for each type (assumes the same folder structure as in the original script)
-base_folder = "satellite_images"
-image_types = ["NightMicrophysicsRGB", "ShortWaveInfrared", "Sandwich", "HeavyRainfallPotentialAreas"]
+
+base_folders = [
+    "satellite_images_sea_2",
+    "satellite_images_sea_all",
+]
+
+image_types = [
+    "NightMicrophysicsRGB",
+    "DayMicrophysicsRGB",
+    "DayConvectiveStorm",
+    "Visible",
+    "Infrared",
+    "ShortWaveInfrared",
+    "Sandwich",
+    "HeavyRainfallPotentialAreas",
+    "TrueColorEnhanced",
+]
 
 # Function to parse the timestamp from the filename format [year]_[month]_[day]_[UTC image index].jpg
 def extract_time_from_filename(filename):
@@ -21,7 +36,7 @@ def extract_time_from_filename(filename):
         return None
 
 # Function to scan for missing files in a given image type folder
-def scan_for_missing_files(image_type):
+def scan_for_missing_files(image_type, base_folder):
     folder_path = os.path.join(base_folder, image_type)
     if not os.path.exists(folder_path):
         print(f"Folder not found: {folder_path}")
@@ -29,11 +44,12 @@ def scan_for_missing_files(image_type):
 
     # List all the filenames in the folder
     existing_files = [f for f in os.listdir(folder_path) if f.endswith('.jpg')]
-    existing_times = sorted([extract_time_from_filename(f) for f in existing_files if extract_time_from_filename(f)])
+    # Filter out None values before sorting
+    existing_times = sorted([t for t in (extract_time_from_filename(f) for f in existing_files) if t is not None])
 
     # If no valid files are found, return early
     if not existing_times:
-        print(f"No valid images found in {image_type} folder.")
+        print(f"No valid images found in {folder_path} folder.\n")
         return []
 
     missing_files = []
@@ -50,29 +66,31 @@ def scan_for_missing_files(image_type):
     return missing_files
 
 # Main function to scan all image types and report missing files
-def scan_all_image_types():
+def scan_all_image_types(base_folder):
     all_missing_files = {}
 
     for image_type in image_types:
-        print(f"Scanning for missing files in {image_type}...")
-        missing_files = scan_for_missing_files(image_type)
+        print(f"Scanning for missing files in {os.path.join(base_folder, image_type)}...")
+        missing_files = scan_for_missing_files(image_type, base_folder)
         if missing_files:
             all_missing_files[image_type] = missing_files
-            print(f"Missing files for {image_type}:")
-            for file in missing_files:
-                print(f"  {file}")
-        else:
-            print(f"No missing files in {image_type} folder.")
+        print()
     
     if all_missing_files:
         print("\nSummary of missing files:")
         for image_type, files in all_missing_files.items():
-            print(f"{image_type}:")
+            print(f"{os.path.join(base_folder, image_type)}:")
             for file in files:
                 print(f"  {file}")
+            print()
     else:
-        print("\nNo missing files detected.")
+        print("No missing files detected.")
 
 # Run the scanning process
 if __name__ == "__main__":
-    scan_all_image_types()
+    for base_folder in base_folders:
+        print('------------------------------------------')
+        print('Base Folder :', base_folder)
+        print('------------------------------------------')
+        scan_all_image_types(base_folder)
+        print()
