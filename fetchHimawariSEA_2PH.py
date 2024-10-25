@@ -5,14 +5,19 @@ from datetime import datetime, timedelta, timezone
 # Define base URLs for different types of imagery
 urls = {
     "NightMicrophysicsRGB"       : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_ngt_",
+    "DayMicrophysicsRGB"         : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_dms_",
+    "DayConvectiveStorm"         : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_cve_",
+    "Visible"                    : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_b03_",
+    "Infrared"                   : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_b13_",
     "ShortWaveInfrared"          : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_b07_",
     "Sandwich"                   : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_snd_",
-    "HeavyRainfallPotentialAreas": "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_hrp_"
+    "HeavyRainfallPotentialAreas": "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_hrp_",
+    "TrueColorEnhanced"          : "https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_trm_"
 }
 
 # Folder to save images
-output_folder = "satellite_images"
-last_utc_file = "last_utc_time.txt"
+output_folder = "satellite_images_sea_2"
+last_utc_file = "last_utc_time_sea_2.checkpoint"
 
 # Create folders for each type of imagery if they don't exist
 for image_type in urls.keys():
