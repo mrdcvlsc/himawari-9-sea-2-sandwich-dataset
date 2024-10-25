@@ -22,24 +22,41 @@ urls = {
 # Folder to save images
 output_folder = "satellite_images_sea_all"
 last_utc_file = "last_utc_time_sea_all.checkpoint"
+failed_downloads_file = "failed-downloads-sea-all.txt"
+
 
 # Create folders for each type of imagery if they don't exist
 for image_type in urls.keys():
     folder_path = os.path.join(output_folder, image_type)
     os.makedirs(folder_path, exist_ok=True)
 
+# Function to log failed downloads
+def log_failed_download(url, filename, error_msg):
+    with open(failed_downloads_file, "a") as f:
+        f.write(f"[{url}], [{filename}], [{error_msg}]\n")
+
 # Function to download an image based on the URL and save it
 def download_image(url, save_path):
-    try:
-        response = requests.get(url, stream=True)
-        if response.status_code == 200:
-            with open(save_path, 'wb') as f:
-                f.write(response.content)
-            print(f"Downloaded: {save_path}")
-        else:
-            print(f"Failed to download {url}: Status {response.status_code}")
-    except Exception as e:
-        print(f"Error downloading {url}: {e}")
+    attempts = 3
+    for attempt in range(1, attempts + 1):
+        try:
+            response = requests.get(url, stream=True)
+            if response.status_code == 200:
+                with open(save_path, 'wb') as f:
+                    f.write(response.content)
+                print(f"Downloaded: {save_path}")
+                return True
+            else:
+                error_msg = f"Status {response.status_code}"
+                print(f"Failed to download {url}: {error_msg}")
+        except Exception as e:
+            error_msg = str(e)
+            print(f"Error downloading {url} (Attempt {attempt}/{attempts}): {error_msg}")
+        
+        if attempt == attempts:
+            # Log failure after final attempt
+            log_failed_download(url, os.path.basename(save_path), error_msg)
+            return False
 
 # Function to generate the image indices based on time range
 def generate_image_indices(start_time, end_time):
