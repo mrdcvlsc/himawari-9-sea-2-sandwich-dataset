@@ -20,7 +20,10 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
-    
+
+    - name: Install Dependecies
+      run: pip3 install requests
+
     - name: Set Timestamp
       run: echo "timestamp=$(date +"%Y_%m_%d_%H%M")" >> $GITHUB_ENV
 
