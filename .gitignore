@@ -1,8 +1,8 @@
-last_utc_time.txt
 satellite_images_sea_2
 satellite_images_sea_all
 run_logs
 *.7z
 *.zip
 *.gz
-*.checkpoint
+# *.checkpoint
+*.txt

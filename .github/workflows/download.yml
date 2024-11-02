@@ -1,0 +1,57 @@
+name: download
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs every day at specified time
+    - cron: '30 0,6,12,18 * * *'
+
+jobs:
+  build:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set Timestamp
+      run: echo "timestamp=$(date +"%Y_%m_%d_%H%M")" >> $GITHUB_ENV
+
+    - name: Download Himawari-9 Sandwich Satellite Images
+      run: make
+
+    - name: Zip Images
+      run: zip -r "${{ env.timestamp }}.zip" satellite_images_sea_2/Sandwich
+
+    - name: Create GitHub Release
+      continue-on-error: true
+      run: |
+        gh release create himawari_9_sea_2_sandwich "${{ env.timestamp }}.zip" \
+          --title "Himawari 9 SEA 2 (Sandwich)" \
+          --notes "Collected images from Himawari-9 satellite" \
+          --draft=false --prerelease=false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Zip File to Release
+      continue-on-error: true
+      run: gh release upload himawari_9_sea_2_sandwich "${{ env.timestamp }}.zip"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Email
+      run:  git config --local user.email mrdcvlsc@gmail.com
+
+    - name: Configure Name
+      run:  git config --local user.name mrdcvlsc
+
+    - name: Git Status
+      run: git status
+
+    - name: Save Changes
+      run: git commit -m "automated run at ${{ env.timestamp }}"
+
+    - name: Push Changes To Benchmark Branch
+      run: git push
