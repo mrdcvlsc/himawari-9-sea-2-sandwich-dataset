@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # Runs every day at specified time
-    - cron: '45 0,6,12,18 * * *'
+    - cron: '0 0,8,16 * * *'
 
 jobs:
   scheduled-download:
