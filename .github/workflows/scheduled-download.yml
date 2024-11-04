@@ -39,7 +39,7 @@ jobs:
       continue-on-error: true
       run: |
         gh release create "himawari_9_sea_2_sandwich_${{ env.yearmonth }}" "${{ env.timestamp }}.zip" \
-          --title "Himawari-9 SEA 2 (Sandwich)" \
+          --title "Himawari-9 SEA 2 (Sandwich) - (${{ env.yearmonth }})" \
           --notes "Collected images from Himawari-9 satellite" \
           --draft=false --prerelease=false
       env:
