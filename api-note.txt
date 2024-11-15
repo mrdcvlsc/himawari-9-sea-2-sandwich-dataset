@@ -12,5 +12,8 @@ https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_b07_<img-index>.jpg
 Sandwich:
 https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_snd_<img-index>.jpg
 
+Pagasa HIMAWARI9 IR1 (4 hour frame - but higher resolution - every 10 minutes)
+https://src.meteopilipinas.gov.ph/repo/mtsat-colored/24hour/<range: 1 to 24>-him-colored.png
+
 HeavyRainfallPotentialAreas:
 https://www.data.jma.go.jp/mscweb/data/himawari/img/se2/se2_hrp_<img-index>.jpg
